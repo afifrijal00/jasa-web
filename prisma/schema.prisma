@@ -1,0 +1,31 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Order {
+  id        Int      @id @default(autoincrement())
+  kode      String   @unique
+  nama      String
+  kontak    String
+  paket     String
+  deploy    Boolean  @default(false)
+  deskripsi String   @db.Text
+  estimasi  Int
+  status    String   @default("BARU")
+  createdAt DateTime @default(now())
+}
+
+model Project {
+  id        Int      @id @default(autoincrement())
+  judul     String
+  deskripsi String   @db.Text
+  tech      String
+  url       String?
+  gambar    String?  @db.Text
+  createdAt DateTime @default(now())
+}
