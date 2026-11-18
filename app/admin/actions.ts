@@ -19,9 +19,16 @@ export async function logout() {
 
 export async function updateStatus(fd: FormData) {
   if (!(await isAdmin())) return;
+  const deadlineRaw = String(fd.get("deadline") || "").trim();
+  const estimasiRaw = fd.get("estimasi");
+
   await prisma.order.update({
     where: { id: Number(fd.get("id")) },
-    data: { status: String(fd.get("status")) },
+    data: {
+      status: String(fd.get("status")),
+      deadline: deadlineRaw || null,
+      ...(estimasiRaw ? { estimasi: Number(estimasiRaw) } : {}),
+    },
   });
   revalidatePath("/admin");
 }
@@ -46,4 +53,22 @@ export async function deleteProject(fd: FormData) {
   await prisma.project.delete({ where: { id: Number(fd.get("id")) } });
   revalidatePath("/admin");
   revalidatePath("/");
+}
+
+export async function addCalendarNote(fd: FormData) {
+  if (!(await isAdmin())) return;
+  await prisma.calendarNote.create({
+    data: {
+      tanggal: String(fd.get("tanggal")),
+      judul: String(fd.get("judul")),
+      catatan: String(fd.get("catatan") || "") || null,
+    },
+  });
+  revalidatePath("/admin");
+}
+
+export async function deleteCalendarNote(fd: FormData) {
+  if (!(await isAdmin())) return;
+  await prisma.calendarNote.delete({ where: { id: Number(fd.get("id")) } });
+  revalidatePath("/admin");
 }

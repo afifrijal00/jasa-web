@@ -37,7 +37,16 @@ export const PACKAGES = [
   },
 ] as const;
 
-export const STATUS = ["BARU", "KONSULTASI", "DP DITERIMA", "DIKERJAKAN", "DEMO", "SELESAI", "BATAL"] as const;
+export const STATUS = [
+  "BARU",
+  "KONSOLIDASI",
+  "FIKSASI",
+  "DP DITERIMA",
+  "PROSES",
+  "DEMO",
+  "SELESAI",
+  "BATAL",
+] as const;
 
 export const rupiah = (n: number) =>
   new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR", maximumFractionDigits: 0 }).format(n);

@@ -17,6 +17,7 @@ model Order {
   deskripsi String   @db.Text
   estimasi  Int
   status    String   @default("BARU")
+  deadline  String?
   createdAt DateTime @default(now())
 }
 
@@ -27,5 +28,13 @@ model Project {
   tech      String
   url       String?
   gambar    String?  @db.Text
+  createdAt DateTime @default(now())
+}
+
+model CalendarNote {
+  id        Int      @id @default(autoincrement())
+  tanggal   String
+  judul     String
+  catatan   String?  @db.Text
   createdAt DateTime @default(now())
 }
